@@ -7,9 +7,10 @@ const router = new Router()
 
 router.post("/registration", userController.registration)
 router.post("/login", userController.login)
-router.post("/set_time", dateTimeController.setDateTime)
+router.post("/set_time", AuthMiddleware, dateTimeController.setDateTime)
+router.post("/check_aviable_time", dateTimeController.checkAvailableTime)
 
 router.get("/refresh", userController.refresh)
-router.get("/date_times", dateTimeController.getDateTimes)
+router.get("/date_times", AuthMiddleware, dateTimeController.getDateTimes)
 
 export const authRouters = router

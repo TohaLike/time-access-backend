@@ -6,6 +6,7 @@ class DateTimeController {
     try {
       const { day, startTime, endTime } = req.body
 
+      console.log(startTime, endTime)
       const dateData = await dateTimeService.setNewDate(day, startTime, endTime)
 
       return res.json(dateData)
@@ -25,6 +26,19 @@ class DateTimeController {
       next(e)
     }
   }
+
+  async checkAvailableTime(req, res, next) {
+    try {
+      const { day, dateTime } = req.body
+
+      const aviableTime = await dateTimeService.checkAvailableTime(day, dateTime)
+
+      return res.json(aviableTime)
+    } catch (e) {
+      next(e)
+    }
+  }
+
 }
 
 export const dateTimeController = new DateTimeController()

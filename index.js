@@ -4,6 +4,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import mongoose from "mongoose"
 import { authRouters } from "./routers/index.js"
+import errorMiddleware from "./middlewares/error-middleware.js"
 
 dotenv.config()
 
@@ -21,6 +22,7 @@ app.use(cors({
 
 app.use("/api", authRouters)
 
+app.use(errorMiddleware)
 
 const main = async () => {
   try {

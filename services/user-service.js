@@ -27,7 +27,9 @@ class UserService {
   async login(email, password) {
     const candidate = await userModel.findOne({ email })
 
-    if (!candidate) throw ApiError.BadRequest(`Такой пользователь ${email} не авторизован`)
+    const userEmail = ["user1@some.com", "user2@some.com"].some((e) => e === candidate?.email)
+
+    if (!candidate || !userEmail) throw ApiError.BadRequest(`Такой пользователь ${email} не авторизован или ему отказано в доступе`)
 
     const isPassEquals = await bycrypt.compare(password, candidate.password);
 
@@ -40,7 +42,7 @@ class UserService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
     return { ...tokens, user: userDto }
-  }
+  } 
 
 
   async refresh(refreshToken) {
